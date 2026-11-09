@@ -242,6 +242,7 @@ h2{background:linear-gradient(100deg,var(--tinta) 40%,#c98a00 50%,var(--tinta) 6
 #portal .puerta .col{animation:emergerP 1.6s cubic-bezier(.2,.7,.2,1) both}
 @keyframes emergerP{from{transform:translateY(60px);opacity:0}}
 @media (prefers-reduced-motion:reduce){#ambrosia,.nubes,.brillos span{display:none}h2{color:var(--tinta);background:none}.emerge{clip-path:none;transform:none}}
+.datos .extra{display:inline-block;margin-top:10px;background:var(--papiro);border:2px dashed var(--oro);border-radius:12px;padding:8px 14px;font-weight:700}
 </style>
 </head>
 <body class="bloqueado">
@@ -392,6 +393,7 @@ const CIUDADES = {
     hora: "1:00 PM a 9:00 PM",
     inicio: "2026-12-04T13:00:00-05:00", fin: "2026-12-04T21:00:00-05:00",
     mapa: "Arde la Selva, Santa Fe de Antioquia, Antioquia",
+    extra: "Lleva vestido de baño y ropa de cambio.",
     poster: "invitacion-medellin.jpg"
   },
   bog: {
@@ -433,6 +435,7 @@ for (const [k,c] of Object.entries(CIUDADES)) {
       <div class="datos" style="text-align:left">
         <span class="etq">Dress code</span>
         <p>Vestimenta blanca.<br>Temática griega <small><strong>(preferiblemente)</strong></small></p>
+        ${c.extra ? `<p class="extra">🩱 ${c.extra}</p>` : ''}
         <div class="bloque"><p><strong>Lugar:</strong> ${c.lugar}</p><p>${c.direccion}</p></div>
         <div class="bloque"><p><strong>Hora:</strong> ${c.hora}</p></div>
         <div class="cuenta" data-fecha="${c.inicio}"></div>
