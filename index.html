@@ -132,7 +132,17 @@ section{padding:84px 0;position:relative}
 .ideas{list-style:none;display:grid;gap:10px}
 .ideas li{display:flex;gap:12px;align-items:flex-start}
 .ideas li::before{content:"✦";color:var(--oro-osc);font-size:1.1rem;line-height:1.5}
-.genero{display:flex;gap:8px;margin-bottom:16px}
+.genero{display:flex;gap:8px;margin-bottom:16px;justify-content:center}
+.lookbook{margin-top:30px}
+.carril{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.look{background:var(--blanco);border:2px solid var(--tinta);border-radius:24px;padding:16px 16px 22px;text-align:center;box-shadow:6px 6px 0 var(--oro);animation:entrar .5s ease both}
+.look:nth-child(2){animation-delay:.08s}.look:nth-child(3){animation-delay:.16s}
+.nicho{position:relative;border-radius:999px 999px 16px 16px;background:radial-gradient(circle at 50% 30%,#fff 0,var(--papiro) 70%);border:2px solid var(--oro);padding:18px 10px 30px;overflow:hidden}
+.nicho::before{content:"";position:absolute;left:0;right:0;bottom:0;height:26px;background:var(--meandro) repeat-x center/26px 26px;opacity:.9}
+.nicho svg{position:relative;width:100%;max-width:220px;height:auto;margin:0 auto;display:block;filter:drop-shadow(0 8px 10px rgba(120,90,40,.15))}
+.look h4{font-family:Cinzel;font-weight:900;font-size:1.15rem;margin:16px 0 4px}
+.look p{font-size:.92rem;color:var(--gris)}
+.pista{display:none;text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:10px}
 .genero button{font:700 .82rem Montserrat;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--tinta);background:transparent;border-radius:999px;padding:7px 16px;cursor:pointer}
 .genero button[aria-pressed=true]{background:var(--tinta);color:var(--oro)}
 .concurso{margin-top:46px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;background:var(--tinta);color:var(--blanco);border-radius:24px;padding:30px;text-align:center}
@@ -167,6 +177,9 @@ footer small{display:block;color:var(--gris);font-size:.8rem;margin-bottom:22px}
   .ficha{grid-template-columns:1fr;text-align:center;padding:24px 18px}
   .cuenta,.acciones{justify-content:center}
   .dress{grid-template-columns:1fr}
+  .carril{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;padding:4px 8px 14px;margin:0 -20px;padding-left:20px;padding-right:20px}
+  .look{flex:0 0 78%;scroll-snap-align:center}
+  .pista{display:block}
   #portal .puerta .col{height:46vh;opacity:.35}
   section{padding:64px 0}
   .cuenta{gap:6px}.cuenta div{min-width:58px;padding:8px 6px}
@@ -255,6 +268,14 @@ footer small{display:block;color:var(--gris);font-size:.8rem;margin-bottom:22px}
       <h2 class="rv" style="font-size:clamp(1.7rem,4.4vw,2.6rem)">Vístete como un dios</h2>
       <p class="rv"><strong>Vestimenta blanca.</strong> Temática griega <em>(preferiblemente)</em>.</p>
     </div>
+    <div class="lookbook">
+      <div class="genero rv" role="group" aria-label="Tipo de look">
+        <button aria-pressed="true" data-g="ella">Ella</button>
+        <button aria-pressed="false" data-g="el">Él</button>
+      </div>
+      <div class="carril" id="looks" aria-live="polite"></div>
+      <p class="pista">Desliza para ver más looks →</p>
+    </div>
     <div class="dress">
       <div class="tarjeta rv">
         <h3>La paleta del Olimpo</h3>
@@ -267,11 +288,7 @@ footer small{display:block;color:var(--gris);font-size:.8rem;margin-bottom:22px}
         </div>
       </div>
       <div class="tarjeta rv">
-        <h3>Ideas de look</h3>
-        <div class="genero" role="group" aria-label="Tipo de look">
-          <button aria-pressed="true" data-g="ella">Ella</button>
-          <button aria-pressed="false" data-g="el">Él</button>
-        </div>
+        <h3>Tips para tu look</h3>
         <ul class="ideas" id="ideas"></ul>
       </div>
     </div>
@@ -309,6 +326,7 @@ footer small{display:block;color:var(--gris);font-size:.8rem;margin-bottom:22px}
 <div id="visor" role="dialog" aria-label="Invitación"><button aria-label="Cerrar">×</button><img alt="Invitación Smart Elysium"></div>
 <div id="toast" role="status"></div>
 
+<script src="looks.js"></script>
 <script>
 /* ====== CONFIGURACIÓN: edita aquí ====== */
 const RSVP_URL = ""; // ← pega aquí el enlace del Google Form de confirmación
@@ -394,7 +412,11 @@ document.addEventListener('click', e => {
 $('#visor').addEventListener('click', e => { if (e.target.tagName !== 'IMG') $('#visor').classList.remove('ver'); });
 
 // Ideas de look
-const pintar = g => $('#ideas').innerHTML = IDEAS[g].map(i=>`<li>${i}</li>`).join('');
+const pintar = g => {
+  $('#ideas').innerHTML = IDEAS[g].map(i=>`<li>${i}</li>`).join('');
+  $('#looks').innerHTML = (window.LOOKS?.[g]||[]).map(l=>`<article class="look"><div class="nicho">${l.s.replace('role="img"',`role="img" aria-label="${l.n}"`)}</div><h4>${l.n}</h4><p>${l.d}</p></article>`).join('');
+  $('#looks').scrollLeft = 0;
+};
 document.querySelectorAll('.genero button').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.genero button').forEach(x => x.setAttribute('aria-pressed', x===b)); pintar(b.dataset.g);
 }));
