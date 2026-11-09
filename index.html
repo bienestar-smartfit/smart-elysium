@@ -189,6 +189,59 @@ footer small{display:block;color:var(--gris);font-size:.8rem;margin-bottom:22px}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}
 }
+
+/* ===== Animaciones del Olimpo ===== */
+#ambrosia{position:fixed;inset:0;pointer-events:none;z-index:40}
+#portal{z-index:50}
+#lira{position:fixed;left:18px;bottom:18px;z-index:65;width:58px;height:58px;border-radius:50%;border:2px solid var(--tinta);background:var(--oro);color:var(--tinta);cursor:pointer;display:grid;place-items:center;box-shadow:3px 3px 0 var(--tinta);transition:transform .2s}
+#lira:hover{transform:scale(1.06)}
+#lira svg{width:30px;height:30px}
+#lira .eq{position:absolute;right:-6px;top:-6px;display:none;gap:2px;align-items:flex-end;height:16px;background:var(--tinta);padding:3px 4px;border-radius:8px}
+#lira.sonando .eq{display:flex}
+#lira .eq i{width:3px;background:var(--oro);border-radius:2px;animation:eq 1s ease-in-out infinite}
+#lira .eq i:nth-child(2){animation-delay:.25s}#lira .eq i:nth-child(3){animation-delay:.5s}
+#lira.sonando{animation:latido 2.5s ease-in-out infinite}
+#lira:not(.sonando)::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--oro);animation:onda 2s ease-out infinite}
+@keyframes eq{0%,100%{height:3px}50%{height:10px}}
+@keyframes latido{50%{box-shadow:3px 3px 0 var(--tinta),0 0 0 8px rgba(253,184,19,.25)}}
+@keyframes onda{from{transform:scale(.9);opacity:1}to{transform:scale(1.4);opacity:0}}
+#rayo{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:0;display:flex;justify-content:center}
+#rayo svg{height:100vh;width:auto;filter:drop-shadow(0 0 18px #fdb813) drop-shadow(0 0 40px #fff2b0)}
+#rayo.caer{animation:rayo 1s ease-out}
+#rayo.caer::before{content:"";position:absolute;inset:0;background:#fffbe8;animation:flash 1s ease-out}
+@keyframes rayo{0%{opacity:0;clip-path:inset(0 0 100% 0)}8%{opacity:1;clip-path:inset(0 0 0 0)}18%{opacity:.2}26%{opacity:1}60%{opacity:.8}100%{opacity:0}}
+@keyframes flash{0%,6%{opacity:0}10%{opacity:.9}22%{opacity:.1}28%{opacity:.7}100%{opacity:0}}
+.brillos{position:relative;display:block}
+.brillos span{position:absolute;width:18px;height:18px;margin:-9px;pointer-events:none;background:var(--oro);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);animation:destello 3.6s ease-in-out infinite;opacity:0}
+@keyframes destello{0%,100%{transform:scale(0) rotate(0);opacity:0}15%{transform:scale(1.2) rotate(45deg);opacity:1}35%{transform:scale(0) rotate(90deg);opacity:0}}
+.hero .titulo,#portal .titulo{animation:divino 4.5s ease-in-out infinite}
+@keyframes divino{0%,100%{filter:drop-shadow(0 0 0 rgba(253,184,19,0));transform:translateY(0)}50%{filter:drop-shadow(0 0 22px rgba(253,184,19,.55));transform:translateY(-6px)}}
+.hero{position:relative;overflow:hidden}
+.nubes{position:absolute;left:0;right:0;bottom:0;height:160px;pointer-events:none;z-index:0}
+.nubes div{position:absolute;bottom:0;filter:drop-shadow(0 6px 10px rgba(160,130,80,.12))}
+.nubes .n1{bottom:6px;animation:nube 46s linear infinite}
+.nubes .n2{bottom:60px;animation:nube 64s linear infinite -20s;opacity:.8}
+.nubes .n3{bottom:20px;animation:nube 54s linear infinite -38s}
+@keyframes nube{from{transform:translateX(-300px)}to{transform:translateX(calc(100vw + 40px))}}
+.hero > *:not(.nubes){position:relative;z-index:1}
+h2{background:linear-gradient(100deg,var(--tinta) 40%,#c98a00 50%,var(--tinta) 60%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:oro 6s linear infinite}
+@keyframes oro{from{background-position:100% 0}to{background-position:-150% 0}}
+.emerge{clip-path:inset(100% 0 0 0);transform:translateY(40px);transition:clip-path 1.6s cubic-bezier(.2,.7,.2,1),transform 1.6s cubic-bezier(.2,.7,.2,1)}
+.emerge.arriba{clip-path:inset(-20% 0 0 0);transform:none}
+.medallon::before{animation:girar 30s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.laurel{animation:mecer 4s ease-in-out infinite;transform-origin:50% 90%}
+@keyframes mecer{50%{rotate:8deg}}
+.look{transition:transform .35s,box-shadow .35s}
+.look:hover{transform:translateY(-8px);box-shadow:6px 12px 0 var(--oro),0 0 40px rgba(253,184,19,.35)}
+.look:hover .nicho svg{animation:levitar 2.4s ease-in-out infinite}
+@keyframes levitar{50%{transform:translateY(-8px)}}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:reflejo 4s ease-in-out infinite}
+@keyframes reflejo{0%,70%{left:-60%}100%{left:130%}}
+#portal .puerta .col{animation:emergerP 1.6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes emergerP{from{transform:translateY(60px);opacity:0}}
+@media (prefers-reduced-motion:reduce){#ambrosia,.nubes,.brillos span{display:none}h2{color:var(--tinta);background:none}.emerge{clip-path:none;transform:none}}
 </style>
 </head>
 <body class="bloqueado">
@@ -327,6 +380,7 @@ footer small{display:block;color:var(--gris);font-size:.8rem;margin-bottom:22px}
 <div id="toast" role="status"></div>
 
 <script src="looks.js"></script>
+<script src="olimpo.js" defer></script>
 <script>
 /* ====== CONFIGURACIÓN: edita aquí ====== */
 const RSVP_URL = ""; // ← pega aquí el enlace del Google Form de confirmación
